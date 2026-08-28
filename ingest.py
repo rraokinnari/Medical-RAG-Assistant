@@ -106,6 +106,33 @@ def process_pdf(pdf_path):
     texts = []
     metadatas = []
 
+    global_chunk_index = 0
+
+    for page in pages:
+
+        chunks = text_splitter.split_text(
+            page["text"]
+        )
+
+        for chunk in chunks:
+
+            texts.append(chunk)
+
+            metadatas.append({
+
+                "source": filename,
+
+                "title": Path(filename).stem,
+
+                "page": page["page_number"],
+
+                "document_id": document_id,
+
+                "chunk_id": global_chunk_index
+
+            })
+
+            global_chunk_index += 1
 
     for page in pages:
 
